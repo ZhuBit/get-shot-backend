@@ -73,7 +73,7 @@ def postPatient():
 
         response = addToDb(patient)
 
-        msg = sendEmail(patient['email'])
+        msg = sendEmail(patient['email'], patient['date'])
 
         return jsonify({
             'status': '200',
@@ -90,22 +90,35 @@ def addToDb(patient):
     response = db.patients.insert(patient)
     return 'response'
 
-def sendEmail(recipient):
+def sendEmail(recipient, date):
     print(f'Sending email to {recipient}...')
-    msg = Message("Get your shot",
+
+
+    if date == '14.06.2021':
+        with open('data/appointment1.json') as json_file:
+            mail_response = json.load(json_file)
+    if date == '21.06.2021':
+        with open('data/appointment2.json') as json_file:
+            mail_response = json.load(json_file)
+
+    if date == '28.06.2021':
+        with open('data/appointment3.json') as json_file:
+            mail_response = json.load(json_file)
+
+    msg = Message(subject=mail_response['subject'],
                   recipients=[recipient])
-    with open('appointment.json') as json_file:
-        mail_response = json.load(json_file)
     msg.body = mail_response['message']
     mail.send(msg)
 
 
 def sendQuestionary(recipient):
     print(f'Sending second email to {recipient}...')
-    msg = Message("Get your shot",
-                  recipients=[recipient])
-    with open('revaccination.json') as json_file:
+
+    with open('data/revaccination.json') as json_file:
         mail_response = json.load(json_file)
+
+    msg = Message(subject=mail_response['subject'],
+                  recipients=[recipient])
 
     msg.body = mail_response['message']
     mail.send(msg)
