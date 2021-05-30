@@ -22,6 +22,7 @@ app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_SUPPRESS_SEND'] = False
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
@@ -105,7 +106,7 @@ def sendEmail(recipient, date):
         with open('data/appointment3.json') as json_file:
             mail_response = json.load(json_file)
 
-    print(mail_response['subject'])
+    print(mail_response['subject'] )
 
     msg = Message(subject=mail_response['subject'],
                   recipients=[recipient])
