@@ -71,7 +71,7 @@ def postPatient():
     try:
         patient = dict(json.loads(request.data))['patient']
         patient['createdAt'] = time.time()
-
+        patient['vaccineType'] = 'pfizer'
         response = addToDb(patient)
 
         msg = sendEmail(patient['email'], patient['date'])
